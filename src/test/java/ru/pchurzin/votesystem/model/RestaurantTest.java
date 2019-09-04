@@ -15,4 +15,13 @@ class RestaurantTest {
                 .setTitle("title1");
         assertEquals(r2, r1);
     }
+
+    @Test
+    void copyingConstructorShouldCreateEqualObject() {
+        Restaurant orig = new Restaurant()
+                .setId(1)
+                .setTitle("title1");
+        Restaurant copy = new Restaurant(orig);
+        assertEquals(copy, orig);
+    }
 }

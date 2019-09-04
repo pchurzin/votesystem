@@ -9,6 +9,15 @@ public class Restaurant {
 
     private String title;
 
+    public Restaurant() {
+
+    }
+
+    public Restaurant(Restaurant other) {
+        id = other.getId();
+        title = other.getTitle();
+    }
+
     public Integer getId() {
         return id;
     }
