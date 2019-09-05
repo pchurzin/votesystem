@@ -5,6 +5,7 @@ import ru.pchurzin.votesystem.model.Restaurant;
 import ru.pchurzin.votesystem.repository.RestaurantRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class VoteSystemServiceImpl implements VoteSystemService {
@@ -16,12 +17,12 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
-    public Restaurant saveRestaurant(Restaurant restaurant) {
+    public Optional<Restaurant> saveRestaurant(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
 
     @Override
-    public Restaurant findRestaurantById(int id) {
+    public Optional<Restaurant> findRestaurantById(int id) {
         return restaurantRepository.findById(id);
     }
 
@@ -31,7 +32,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
-    public void removeRestaurantById(int id) {
-        restaurantRepository.removeById(id);
+    public boolean removeRestaurantById(int id) {
+        return restaurantRepository.removeById(id);
     }
 }
