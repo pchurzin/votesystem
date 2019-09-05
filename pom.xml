@@ -19,6 +19,7 @@
         <logback.version>1.2.3</logback.version>
         <hsqldb.version>2.4.1</hsqldb.version>
         <liquibase.version>3.7.0</liquibase.version>
+        <dbcp2.version>2.6.0</dbcp2.version>
         <jupiter.version>5.5.1</jupiter.version>
         <mockito.version>3.0.0</mockito.version>
         <hamcrest.version>2.1</hamcrest.version>
@@ -26,6 +27,12 @@
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -109,6 +116,11 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>${dbcp2.version}</version>
         </dependency>
 
         <dependency>
