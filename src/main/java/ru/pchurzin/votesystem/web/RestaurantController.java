@@ -5,14 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pchurzin.votesystem.model.Restaurant;
 import ru.pchurzin.votesystem.service.VoteSystemService;
 
+import java.net.URI;
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/restaurants", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
+
+    final static String REST_URL = "/restaurants";
 
     private final VoteSystemService service;
 
@@ -28,18 +33,24 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     ResponseEntity<Restaurant> findRestaurantById(@PathVariable int id) {
-        Restaurant restaurant = service.findRestaurantById(id);
-        if (restaurant == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(restaurant, HttpStatus.OK);
+        Optional<Restaurant> restaurant = service.findRestaurantById(id);
+        return restaurant.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         restaurant.setId(null);
-        Restaurant newRestaurant = service.saveRestaurant(restaurant);
-        return new ResponseEntity<>(newRestaurant, HttpStatus.CREATED);
+        Optional<Restaurant> newRestaurant = service.saveRestaurant(restaurant);
+        if (!newRestaurant.isPresent()) {
+            throw new RuntimeException();
+        }
+
+        Restaurant r = newRestaurant.get();
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(r.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(r);
     }
 
     @PutMapping("/{id}")
@@ -47,13 +58,18 @@ public class RestaurantController {
         if (id != restaurant.getId()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Restaurant updatedRestaurant = service.saveRestaurant(restaurant);
-        return new ResponseEntity<>(updatedRestaurant, HttpStatus.OK);
+        Optional<Restaurant> savedRestaurant = service.saveRestaurant(restaurant);
+        if (!savedRestaurant.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteRestaurant(@PathVariable int id) {
-        service.removeRestaurantById(id);
+    ResponseEntity<Void> deleteRestaurant(@PathVariable int id) {
+        if (service.removeRestaurantById(id)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
