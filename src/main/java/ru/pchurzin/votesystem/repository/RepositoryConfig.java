@@ -1,5 +1,6 @@
 package ru.pchurzin.votesystem.repository;
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,14 @@ public class RepositoryConfig {
         dataSource.setPassword(env.getProperty("db.password"));
         dataSource.setDriverClassName(env.getProperty("db.driverClass"));
         return dataSource;
+    }
+
+    @Bean
+    public SpringLiquibase liquibase(DataSource dataSource) {
+        SpringLiquibase springLiquibase = new SpringLiquibase();
+        springLiquibase.setChangeLog("classpath:db/changelog.sql");
+        springLiquibase.setDataSource(dataSource);
+        return springLiquibase;
     }
 
 }
