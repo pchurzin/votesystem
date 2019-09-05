@@ -1,5 +1,7 @@
 package ru.pchurzin.votesystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -56,5 +58,10 @@ public class Restaurant {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle());
+    }
+
+    @JsonIgnore
+    public boolean isNew() {
+        return id == null;
     }
 }
