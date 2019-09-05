@@ -1,10 +1,12 @@
 package ru.pchurzin.votesystem.service;
 
+import org.springframework.stereotype.Service;
 import ru.pchurzin.votesystem.model.Restaurant;
 import ru.pchurzin.votesystem.repository.RestaurantRepository;
 
 import java.util.Collection;
 
+@Service
 public class VoteSystemServiceImpl implements VoteSystemService {
 
     private final RestaurantRepository restaurantRepository;
