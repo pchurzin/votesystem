@@ -3,10 +3,7 @@ package ru.pchurzin.votesystem.repository;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -26,6 +23,7 @@ public class RepositoryConfig {
     }
 
     @Bean
+    @Profile("!heroku")
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUrl(env.getProperty("db.url"));
@@ -36,9 +34,17 @@ public class RepositoryConfig {
     }
 
     @Bean
+    @Profile("heroku")
+    public DataSource herokuDataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setUrl(System.getenv("JDBC_DATABASE_URL"));
+        return dataSource;
+    }
+
+    @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase springLiquibase = new SpringLiquibase();
-        springLiquibase.setChangeLog("classpath:db/changelog.sql");
+        springLiquibase.setChangeLog("classpath:db/changelog.xml");
         springLiquibase.setDataSource(dataSource);
         return springLiquibase;
     }
