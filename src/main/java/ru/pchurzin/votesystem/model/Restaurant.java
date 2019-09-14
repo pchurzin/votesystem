@@ -1,32 +1,18 @@
 package ru.pchurzin.votesystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Restaurant {
-
-    private Integer id;
+public class Restaurant extends BaseEntity {
 
     private String title;
 
     public Restaurant() {
-
     }
 
     public Restaurant(Restaurant other) {
-        id = other.getId();
+        super(other);
         title = other.getTitle();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Restaurant setId(Integer id) {
-        this.id = id;
-        return this;
     }
 
     public String getTitle() {
@@ -41,7 +27,7 @@ public class Restaurant {
     @Override
     public String toString() {
         return new StringJoiner(", ", Restaurant.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
+                .add("id=" + getId())
                 .add("title='" + title + "'")
                 .toString();
     }
@@ -58,10 +44,5 @@ public class Restaurant {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle());
-    }
-
-    @JsonIgnore
-    public boolean isNew() {
-        return id == null;
     }
 }

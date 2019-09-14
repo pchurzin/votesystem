@@ -1,8 +1,9 @@
 package ru.pchurzin.votesystem.model;
 
-public class MenuItem {
+import java.util.Objects;
+import java.util.StringJoiner;
 
-    private Integer id;
+public class MenuItem extends BaseEntity {
 
     private String title;
 
@@ -12,17 +13,9 @@ public class MenuItem {
     }
 
     public MenuItem(MenuItem other) {
-        this.id = other.getId();
+        super(other);
         this.title = other.getTitle();
         this.price = other.getPrice();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -40,6 +33,30 @@ public class MenuItem {
     public void setPrice(int price) {
         checkPrice(price);
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MenuItem)) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return getId().equals(menuItem.getId()) &&
+                getPrice() == menuItem.getPrice() &&
+                Objects.equals(getTitle(), menuItem.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getPrice());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MenuItem.class.getSimpleName() + "[", "]")
+                .add("id=" + getId())
+                .add("title='" + title + "'")
+                .add("price=" + price)
+                .toString();
     }
 
     private void checkPrice(int price) {
