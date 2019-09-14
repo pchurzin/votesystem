@@ -9,6 +9,8 @@ public class MenuItem extends BaseEntity {
 
     private int price;
 
+    private Integer restaurantId;
+
     public MenuItem() {
     }
 
@@ -16,6 +18,7 @@ public class MenuItem extends BaseEntity {
         super(other);
         this.title = other.getTitle();
         this.price = other.getPrice();
+        this.restaurantId = other.getRestaurantId();
     }
 
     public String getTitle() {
@@ -35,19 +38,28 @@ public class MenuItem extends BaseEntity {
         this.price = price;
     }
 
+    public Integer getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Integer restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MenuItem)) return false;
         MenuItem menuItem = (MenuItem) o;
-        return getId().equals(menuItem.getId()) &&
+        return Objects.equals(getId(), menuItem.getId()) &&
                 getPrice() == menuItem.getPrice() &&
+                Objects.equals(getRestaurantId(), menuItem.getRestaurantId()) &&
                 Objects.equals(getTitle(), menuItem.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getPrice());
+        return Objects.hash(getId(), getTitle(), getPrice(), getRestaurantId());
     }
 
     @Override
@@ -56,6 +68,7 @@ public class MenuItem extends BaseEntity {
                 .add("id=" + getId())
                 .add("title='" + title + "'")
                 .add("price=" + price)
+                .add("restaurantId=" + restaurantId)
                 .toString();
     }
 
@@ -72,6 +85,8 @@ public class MenuItem extends BaseEntity {
         private String title;
 
         private int price;
+
+        private Integer restaurantId;
 
         public Builder() {
         }
@@ -97,11 +112,17 @@ public class MenuItem extends BaseEntity {
             return this;
         }
 
+        public Builder withRestaurantId(Integer id) {
+            restaurantId = id;
+            return this;
+        }
+
         public MenuItem build() {
             MenuItem menuItem = new MenuItem();
             menuItem.setId(id);
             menuItem.setTitle(title);
             menuItem.setPrice(price);
+            menuItem.setRestaurantId(restaurantId);
             return menuItem;
         }
     }

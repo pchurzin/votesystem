@@ -14,11 +14,13 @@ class MenuItemTest {
                 .withId(1)
                 .withTitle("title1")
                 .withPrice(10000)
+                .withRestaurantId(456)
                 .build();
         MenuItem mi2 = new MenuItem.Builder()
                 .withId(1)
                 .withTitle("title1")
                 .withPrice(10000)
+                .withRestaurantId(456)
                 .build();
 
         assertEquals(mi2, mi1);
@@ -30,6 +32,7 @@ class MenuItemTest {
                 .withId(1)
                 .withTitle("title1")
                 .withPrice(999)
+                .withRestaurantId(456)
                 .build();
         MenuItem copy = new MenuItem(orig);
         assertEquals(copy, orig);
