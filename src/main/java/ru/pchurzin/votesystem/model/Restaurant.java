@@ -45,4 +45,36 @@ public class Restaurant extends BaseEntity {
     public int hashCode() {
         return Objects.hash(getId(), getTitle());
     }
+
+    public static class Builder {
+
+        private Integer id;
+
+        private String title;
+
+        public Builder() {
+        }
+
+        public Builder(Restaurant restaurant) {
+            id = restaurant.getId();
+            title = restaurant.getTitle();
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Restaurant build() {
+            Restaurant restaurant = new Restaurant();
+            restaurant.setTitle(title);
+            restaurant.setId(id);
+            return restaurant;
+        }
+    }
 }

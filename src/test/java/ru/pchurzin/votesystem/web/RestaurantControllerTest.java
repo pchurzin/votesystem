@@ -40,12 +40,14 @@ class RestaurantControllerTest {
 
     @Test
     void shouldReturnNonEmptyRestaurants() throws Exception {
-        Restaurant restaurant1 = new Restaurant();
-        restaurant1.setId(100);
-        restaurant1.setTitle("title1");
-        Restaurant restaurant2 = new Restaurant(restaurant1);
-        restaurant2.setId(101);
-        restaurant2.setTitle("title2");
+        Restaurant restaurant1 = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
+        Restaurant restaurant2 = new Restaurant.Builder()
+                .withId(101)
+                .withTitle("title2")
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
         Mockito.when(service.findAllRestaurants()).thenReturn(Arrays.asList(restaurant1, restaurant2));
@@ -62,9 +64,10 @@ class RestaurantControllerTest {
 
     @Test
     void shouldReturnExistingRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(100);
-        restaurant.setTitle("title1");
+        Restaurant restaurant = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
         Mockito.when(service.findRestaurantById(100)).thenReturn(Optional.of(restaurant));
@@ -91,10 +94,13 @@ class RestaurantControllerTest {
 
     @Test
     void createNewRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(100);
-        restaurant.setTitle("title1");
-        Restaurant nullIdRestaurant = new Restaurant(restaurant).setId(null);
+        Restaurant restaurant = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
+        Restaurant nullIdRestaurant = new Restaurant.Builder(restaurant)
+                .withId(null)
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
         Mockito.when(service.saveRestaurant(nullIdRestaurant)).thenReturn(Optional.of(restaurant));
@@ -118,9 +124,10 @@ class RestaurantControllerTest {
 
     @Test
     void updateRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant()
-                .setId(100)
-                .setTitle("title1");
+        Restaurant restaurant = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
         Mockito.when(service.saveRestaurant(restaurant)).thenReturn(Optional.of(restaurant));
@@ -135,9 +142,10 @@ class RestaurantControllerTest {
 
     @Test
     void updateNonExistingRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant()
-                .setId(100)
-                .setTitle("title1");
+        Restaurant restaurant = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
 
@@ -151,9 +159,10 @@ class RestaurantControllerTest {
 
     @Test
     void updateRestaurantWithWrongId() throws Exception {
-        Restaurant restaurant = new Restaurant()
-                .setId(100)
-                .setTitle("title1");
+        Restaurant restaurant = new Restaurant.Builder()
+                .withId(100)
+                .withTitle("title1")
+                .build();
 
         VoteSystemService service = Mockito.mock(VoteSystemService.class);
 
