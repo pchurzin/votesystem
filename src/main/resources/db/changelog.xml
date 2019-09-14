@@ -13,4 +13,23 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="2" author="pchurzin">
+        <createTable tableName="menu_items">
+            <column name="id" type="int" autoIncrement="true" startWith="2000">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="price" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="restaurant_id" type="int">
+                <constraints
+                    referencedTableName="restaurants" referencedColumnNames="id" foreignKeyName="fkMenuItemsRestaurants"
+                    nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
