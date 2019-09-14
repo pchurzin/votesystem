@@ -64,4 +64,45 @@ public class MenuItem extends BaseEntity {
             throw new IllegalArgumentException("Price must not be < 0" + price);
         }
     }
+
+    public static class Builder {
+
+        private Integer id;
+
+        private String title;
+
+        private int price;
+
+        public Builder() {
+        }
+
+        public Builder(MenuItem other) {
+            id = other.getId();
+            title = other.getTitle();
+            price = other.getPrice();
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder withPrice(int price) {
+            this.price = price;
+            return this;
+        }
+
+        public MenuItem build() {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setId(id);
+            menuItem.setTitle(title);
+            menuItem.setPrice(price);
+            return menuItem;
+        }
+    }
 }
