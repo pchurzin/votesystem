@@ -1,32 +1,18 @@
 package ru.pchurzin.votesystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Restaurant {
-
-    private Integer id;
+public class Restaurant extends BaseEntity {
 
     private String title;
 
     public Restaurant() {
-
     }
 
     public Restaurant(Restaurant other) {
-        id = other.getId();
+        super(other);
         title = other.getTitle();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Restaurant setId(Integer id) {
-        this.id = id;
-        return this;
     }
 
     public String getTitle() {
@@ -41,7 +27,7 @@ public class Restaurant {
     @Override
     public String toString() {
         return new StringJoiner(", ", Restaurant.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
+                .add("id=" + getId())
                 .add("title='" + title + "'")
                 .toString();
     }
@@ -60,8 +46,35 @@ public class Restaurant {
         return Objects.hash(getId(), getTitle());
     }
 
-    @JsonIgnore
-    public boolean isNew() {
-        return id == null;
+    public static class Builder {
+
+        private Integer id;
+
+        private String title;
+
+        public Builder() {
+        }
+
+        public Builder(Restaurant restaurant) {
+            id = restaurant.getId();
+            title = restaurant.getTitle();
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Restaurant build() {
+            Restaurant restaurant = new Restaurant();
+            restaurant.setTitle(title);
+            restaurant.setId(id);
+            return restaurant;
+        }
     }
 }
