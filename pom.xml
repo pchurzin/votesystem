@@ -28,7 +28,7 @@
     </properties>
 
     <build>
-        <finalName>votesytem</finalName>
+        <finalName>votesystem</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
