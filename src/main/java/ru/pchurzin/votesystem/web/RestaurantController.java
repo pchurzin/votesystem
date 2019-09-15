@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.pchurzin.votesystem.model.MenuItem;
 import ru.pchurzin.votesystem.model.Restaurant;
 import ru.pchurzin.votesystem.service.VoteSystemService;
 
@@ -72,4 +73,26 @@ public class RestaurantController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/{id}" + MenuItemController.REST_URL)
+    Collection<MenuItem> getRestaurantMenuItems(@PathVariable("id") int restaurantId) {
+        return service.findAllMenuItemsByRestaurantId(restaurantId);
+    }
+
+    @PostMapping("/{id}" + MenuItemController.REST_URL)
+    ResponseEntity<MenuItem> createMenuItem(@PathVariable("id") int restaurantId, @RequestBody MenuItem menuItem) {
+        menuItem.setId(null);
+        menuItem.setRestaurantId(restaurantId);
+        Optional<MenuItem> newMenuItem = service.saveMenuItem(menuItem);
+        if (!newMenuItem.isPresent()) {
+            throw new RuntimeException();
+        }
+
+        MenuItem item = newMenuItem.get();
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(MenuItemController.REST_URL + "/{id}")
+                .buildAndExpand(item.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(item);
+    }
+
 }
