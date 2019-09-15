@@ -56,7 +56,7 @@ public class RestaurantController {
 
     @PutMapping("/{id}")
     ResponseEntity<Restaurant> updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int id) {
-        if (id != restaurant.getId()) {
+        if (restaurant.getId() == null || id != restaurant.getId()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Optional<Restaurant> savedRestaurant = service.saveRestaurant(restaurant);
