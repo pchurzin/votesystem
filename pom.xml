@@ -5,7 +5,7 @@
 
     <groupId>ru.pchurzin</groupId>
     <artifactId>votesystem</artifactId>
-    <version>0.1.1.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -28,6 +28,7 @@
     </properties>
 
     <build>
+        <finalName>votesytem</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
