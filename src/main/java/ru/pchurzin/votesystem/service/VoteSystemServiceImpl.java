@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pchurzin.votesystem.model.MenuItem;
 import ru.pchurzin.votesystem.model.Restaurant;
+import ru.pchurzin.votesystem.model.User;
 import ru.pchurzin.votesystem.repository.MenuItemRepository;
 import ru.pchurzin.votesystem.repository.RestaurantRepository;
+import ru.pchurzin.votesystem.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -17,11 +19,13 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     private final RestaurantRepository restaurantRepository;
     private final MenuItemRepository menuItemRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public VoteSystemServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
+    public VoteSystemServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, UserRepository userRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -67,5 +71,27 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     @Override
     public boolean removeMenuItemById(int id) {
         return menuItemRepository.removeById(id);
+    }
+
+    @Override
+    public Optional<User> saveUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findUserById(int id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public boolean removeUserById(int id) {
+        return userRepository.removeById(id);
     }
 }
