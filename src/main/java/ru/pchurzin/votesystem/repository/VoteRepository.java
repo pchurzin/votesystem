@@ -16,6 +16,14 @@ public interface VoteRepository {
     Optional<Vote> save(Vote vote);
 
     /**
+     * fetch <code>Vote</code> by it's id
+     *
+     * @param id the id of the <code>Vote</code>
+     * @return Optional with found <code>Vote</code> or empty if no vote with the id was found
+     */
+    Optional<Vote> findById(int id);
+
+    /**
      * fetch vote by specified user on specified date
      * @param userId user id
      * @param date date

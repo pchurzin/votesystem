@@ -51,6 +51,14 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
+    public Optional<Vote> findById(int id) {
+        List<Vote> votes = namedParameterJdbcTemplate.query("SELECT * FROM " + TABLE_NAME +
+                        " WHERE id = :id", new MapSqlParameterSource("id", id),
+                ROW_MAPPER);
+        return votes.size() == 1 ? Optional.of(votes.get(0)) : Optional.empty();
+    }
+
+    @Override
     public Optional<Vote> findByUserIdAndDate(int userId, LocalDate date) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
