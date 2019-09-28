@@ -32,4 +32,17 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="3" author="pchurzin">
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true" startWith="3000">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

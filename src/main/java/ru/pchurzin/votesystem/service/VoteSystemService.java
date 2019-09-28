@@ -2,6 +2,7 @@ package ru.pchurzin.votesystem.service;
 
 import ru.pchurzin.votesystem.model.MenuItem;
 import ru.pchurzin.votesystem.model.Restaurant;
+import ru.pchurzin.votesystem.model.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -70,5 +71,36 @@ public interface VoteSystemService {
      * @return <code>true</code> if the menu item has been removed
      */
     boolean removeMenuItemById(int id);
+
+    /**
+     * inserts or updates user
+     *
+     * @param user <code>User</code> to be inserted or updated
+     * @return <code>Optional</code> with updated user or empty if operation didn't perform action
+     */
+    Optional<User> saveUser(User user);
+
+    /**
+     * fetch <code>User</code> by it's id
+     *
+     * @param id the id of the <code>User</code>
+     * @return Optional with found <code>User</code> or empty if no user with id found
+     */
+    Optional<User> findUserById(int id);
+
+    /**
+     * fetch all users
+     *
+     * @return <code>Collection</code> of <code>User</code>s or empty <code>Collection</code>
+     */
+    Collection<User> findAllUsers();
+
+    /**
+     * deletes user by id
+     *
+     * @param id the id of the <code>User</code> to be deleted
+     * @return <code>true</code> if the user has been removed
+     */
+    boolean removeUserById(int id);
 
 }
