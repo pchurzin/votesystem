@@ -61,4 +61,11 @@
         </createTable>
         <addUniqueConstraint tableName="votes" columnNames="user_id, date" constraintName="oneVotePerDay"/>
     </changeSet>
+    <changeSet id="5" author="pchurzin">
+        <addColumn tableName="votes">
+            <column name="id" type="int" startWith="4000" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
