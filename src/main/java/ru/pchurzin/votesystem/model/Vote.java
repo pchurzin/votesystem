@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 
-public class Vote {
+public class Vote extends BaseEntity {
 
     private int userId;
 
@@ -13,10 +13,21 @@ public class Vote {
     @NonNull
     private LocalDate date;
 
+    public Vote() {
+
+    }
+
     public Vote(int userId, int restaurantId, LocalDate date) {
         this.userId = userId;
         this.restaurantId = restaurantId;
         this.date = date;
+    }
+
+    public Vote(Vote other) {
+        userId = other.getUserId();
+        restaurantId = other.getRestaurantId();
+        date = other.getDate();
+        setId(other.getId());
     }
 
     public int getUserId() {
