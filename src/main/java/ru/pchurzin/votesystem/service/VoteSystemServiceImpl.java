@@ -52,7 +52,8 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     public boolean removeRestaurantById(int id) {
-        menuItemRepository.findAllByRestaurantId(id);
+        menuItemRepository.removeByRestaurantId(id);
+        voteRepository.removeAllForRestaurant(id);
         return restaurantRepository.removeById(id);
     }
 
@@ -97,6 +98,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     public boolean removeUserById(int id) {
+        voteRepository.removeAllForUser(id);
         return userRepository.removeById(id);
     }
 
@@ -106,11 +108,13 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Vote> findVoteByUserIdAndDate(int userId, LocalDate date) {
         return voteRepository.findByUserIdAndDate(userId, date);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<Vote> findVotesByRestaurantIdAndDate(int restaurantId, LocalDate date) {
         return voteRepository.findByRestaurantIdAndDate(restaurantId, date);
     }
