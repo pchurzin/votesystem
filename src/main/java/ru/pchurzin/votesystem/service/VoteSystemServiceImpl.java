@@ -104,6 +104,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     public Optional<Vote> saveVote(Vote vote) {
+        voteRepository.removeByUserIdAndDate(vote.getUserId(), vote.getDate());
         return voteRepository.save(vote);
     }
 
