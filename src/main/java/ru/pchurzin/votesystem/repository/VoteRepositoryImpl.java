@@ -100,4 +100,12 @@ public class VoteRepositoryImpl implements VoteRepository {
                         " WHERE restaurant_id = :restaurantId",
                 new MapSqlParameterSource("restaurantId", restaurantId)) > 0;
     }
+
+    @Override
+    public boolean removeById(int id) {
+        return namedParameterJdbcTemplate.update("DELETE FROM " + TABLE_NAME +
+                        " WHERE id = :id",
+                new MapSqlParameterSource("id", id)) > 0;
+
+    }
 }

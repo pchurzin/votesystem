@@ -60,4 +60,13 @@ public interface VoteRepository {
      * @return if votes have been removed
      */
     boolean removeAllForRestaurant(int restaurantId);
+
+    /**
+     * deletes vote by id
+     *
+     * @param id the id of the <code>Vote</code> to be deleted
+     * @return <code>true</code> if the vote has been removed
+     */
+    boolean removeById(int id);
+
 }
