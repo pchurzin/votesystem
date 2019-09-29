@@ -158,4 +158,12 @@ public interface VoteSystemService {
      */
     boolean removeAllVotesForRestaurant(int restaurantId);
 
+    /**
+     * deletes vote by id
+     *
+     * @param id the id of the <code>Vote</code> to be deleted
+     * @return <code>true</code> if the vote has been removed
+     */
+    boolean removeVoteById(int id);
+
 }

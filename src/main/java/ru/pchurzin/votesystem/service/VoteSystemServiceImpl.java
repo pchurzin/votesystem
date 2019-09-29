@@ -140,4 +140,9 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     public boolean removeAllVotesForRestaurant(int restaurantId) {
         return voteRepository.removeAllForRestaurant(restaurantId);
     }
+
+    @Override
+    public boolean removeVoteById(int id) {
+        return voteRepository.removeById(id);
+    }
 }
