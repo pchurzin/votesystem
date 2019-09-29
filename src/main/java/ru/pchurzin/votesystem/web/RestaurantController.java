@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.pchurzin.votesystem.model.MenuItem;
 import ru.pchurzin.votesystem.model.Restaurant;
+import ru.pchurzin.votesystem.model.Vote;
 import ru.pchurzin.votesystem.service.VoteSystemService;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -95,4 +97,18 @@ public class RestaurantController {
         return ResponseEntity.created(uriOfNewResource).body(item);
     }
 
+    @PostMapping("/{id}" + VoteController.REST_URL)
+    ResponseEntity<Vote> voteForRestaurant(@PathVariable("id") int restaurantId) throws Exception {
+        Vote vote = new Vote(9999, restaurantId, LocalDate.now());//todo: getCurrentUser
+        Optional<Vote> newVote = service.saveVote(vote);
+        if (!newVote.isPresent()) {
+            throw new RuntimeException();
+        }
+
+        Vote savedVote = newVote.get();
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(MenuItemController.REST_URL + "/{id}")
+                .buildAndExpand(savedVote.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(savedVote);
+    }
 }
