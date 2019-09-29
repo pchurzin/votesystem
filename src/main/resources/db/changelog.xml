@@ -45,4 +45,27 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="4" author="pchurzin">
+        <createTable tableName="votes">
+            <column name="user_id" type="int" >
+                <constraints nullable="false" referencedTableName="users" referencedColumnNames="id"
+                    foreignKeyName="fkUserVotes"/>
+            </column>
+            <column name="restaurant_id" type="int" >
+                <constraints nullable="false" referencedTableName="restaurants" referencedColumnNames="id"
+                    foreignKeyName="fkRestaurantVotes"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="votes" columnNames="user_id, date" constraintName="oneVotePerDay"/>
+    </changeSet>
+    <changeSet id="5" author="pchurzin">
+        <addColumn tableName="votes">
+            <column name="id" type="int" startWith="4000" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

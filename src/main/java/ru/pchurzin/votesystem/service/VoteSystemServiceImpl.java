@@ -6,10 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.pchurzin.votesystem.model.MenuItem;
 import ru.pchurzin.votesystem.model.Restaurant;
 import ru.pchurzin.votesystem.model.User;
+import ru.pchurzin.votesystem.model.Vote;
 import ru.pchurzin.votesystem.repository.MenuItemRepository;
 import ru.pchurzin.votesystem.repository.RestaurantRepository;
 import ru.pchurzin.votesystem.repository.UserRepository;
+import ru.pchurzin.votesystem.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -20,12 +23,14 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     private final RestaurantRepository restaurantRepository;
     private final MenuItemRepository menuItemRepository;
     private final UserRepository userRepository;
+    private final VoteRepository voteRepository;
 
     @Autowired
-    public VoteSystemServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, UserRepository userRepository) {
+    public VoteSystemServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository, UserRepository userRepository, VoteRepository voteRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
         this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
     }
 
     @Override
@@ -47,7 +52,8 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     public boolean removeRestaurantById(int id) {
-        menuItemRepository.findAllByRestaurantId(id);
+        menuItemRepository.removeByRestaurantId(id);
+        voteRepository.removeAllForRestaurant(id);
         return restaurantRepository.removeById(id);
     }
 
@@ -92,6 +98,51 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     public boolean removeUserById(int id) {
+        voteRepository.removeAllForUser(id);
         return userRepository.removeById(id);
+    }
+
+    @Override
+    public Optional<Vote> saveVote(Vote vote) {
+        voteRepository.removeByUserIdAndDate(vote.getUserId(), vote.getDate());
+        return voteRepository.save(vote);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Vote> findVoteById(int id) {
+        return voteRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Vote> findVoteByUserIdAndDate(int userId, LocalDate date) {
+        return voteRepository.findByUserIdAndDate(userId, date);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Vote> findVotesByRestaurantIdAndDate(int restaurantId, LocalDate date) {
+        return voteRepository.findByRestaurantIdAndDate(restaurantId, date);
+    }
+
+    @Override
+    public boolean removeVoteByUserIdAndDate(int userId, LocalDate date) {
+        return voteRepository.removeByUserIdAndDate(userId, date);
+    }
+
+    @Override
+    public boolean removeAllVotesForUser(int userId) {
+        return voteRepository.removeAllForUser(userId);
+    }
+
+    @Override
+    public boolean removeAllVotesForRestaurant(int restaurantId) {
+        return voteRepository.removeAllForRestaurant(restaurantId);
+    }
+
+    @Override
+    public boolean removeVoteById(int id) {
+        return voteRepository.removeById(id);
     }
 }
