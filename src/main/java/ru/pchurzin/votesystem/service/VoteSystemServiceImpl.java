@@ -110,6 +110,12 @@ public class VoteSystemServiceImpl implements VoteSystemService {
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<Vote> findVoteById(int id) {
+        return voteRepository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Vote> findVoteByUserIdAndDate(int userId, LocalDate date) {
         return voteRepository.findByUserIdAndDate(userId, date);
     }
