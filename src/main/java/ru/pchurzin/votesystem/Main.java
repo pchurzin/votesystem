@@ -7,6 +7,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import ru.pchurzin.votesystem.repository.RepositoryConfig;
+import ru.pchurzin.votesystem.security.SecurityConfig;
 import ru.pchurzin.votesystem.service.ServiceConfig;
 import ru.pchurzin.votesystem.web.WebConfig;
 
@@ -19,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         AnnotationConfigWebApplicationContext wac = new AnnotationConfigWebApplicationContext();
-        wac.register(WebConfig.class, RepositoryConfig.class, ServiceConfig.class);
+        wac.register(WebConfig.class, RepositoryConfig.class, ServiceConfig.class, SecurityConfig.class);
         DispatcherServlet dispatcherServlet = new DispatcherServlet(wac);
         ServletHolder servletHolder = new ServletHolder("mvc-dispatcher", dispatcherServlet);
 
