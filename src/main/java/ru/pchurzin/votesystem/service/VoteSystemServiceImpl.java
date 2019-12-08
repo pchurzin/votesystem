@@ -1,6 +1,7 @@
 package ru.pchurzin.votesystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pchurzin.votesystem.model.MenuItem;
@@ -34,6 +35,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Restaurant> saveRestaurant(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
@@ -51,6 +53,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean removeRestaurantById(int id) {
         menuItemRepository.removeByRestaurantId(id);
         voteRepository.removeAllForRestaurant(id);
@@ -58,6 +61,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<MenuItem> saveMenuItem(MenuItem menuItem) {
         return menuItemRepository.save(menuItem);
     }
@@ -75,11 +79,13 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean removeMenuItemById(int id) {
         return menuItemRepository.removeById(id);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<User> saveUser(User user) {
         return userRepository.save(user);
     }
@@ -97,6 +103,7 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean removeUserById(int id) {
         voteRepository.removeAllForUser(id);
         return userRepository.removeById(id);
@@ -132,11 +139,13 @@ public class VoteSystemServiceImpl implements VoteSystemService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean removeAllVotesForUser(int userId) {
         return voteRepository.removeAllForUser(userId);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean removeAllVotesForRestaurant(int restaurantId) {
         return voteRepository.removeAllForRestaurant(restaurantId);
     }
