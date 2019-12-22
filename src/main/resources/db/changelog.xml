@@ -68,4 +68,18 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="6" author="pchurzin">
+        <insert tableName="users">
+            <column name="name">admin</column>
+            <!--adminpass-->
+            <!--this is a demo app-->
+            <column name="password">{bcrypt}$2a$10$KgdJGaPIFNkr.Hsn2NXyDuABKUeTsX.Vl5URBYIRnGDhSDNZtS9PO</column>
+        </insert>
+        <insert tableName="users">
+            <column name="name">user</column>
+            <!--userpass-->
+            <!--this is a demo app-->
+            <column name="password">{bcrypt}$2a$10$QSqFP7aZgc6PWxkf.z7aM.z/VyKxZhOwciFBaN6K6iw753GaiKIOG</column>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

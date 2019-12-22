@@ -24,6 +24,14 @@ public interface UserRepository {
     Optional<User> findById(int id);
 
     /**
+     * fetch <code>User</code> by it's name
+     *
+     * @param name the name of the <code>User</code>
+     * @return Optional with found <code>User</code> or empty if no user with id found
+     */
+    Optional<User> findByName(String name);
+
+    /**
      * fetch all users
      *
      * @return <code>Collection</code> of <code>User</code>s or empty <code>Collection</code>
