@@ -57,6 +57,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByName(String name) {
+        List<User> users = namedParameterJdbcTemplate.query("SELECT * FROM " + TABLE_NAME + " WHERE name=:name",
+                new MapSqlParameterSource("name", name), ROW_MAPPER);
+        return users.size() == 1 ? Optional.of(users.get(0)) : Optional.empty();
+    }
+
+    @Override
     public Collection<User> findAll() {
         return namedParameterJdbcTemplate.query("SELECT * FROM " + TABLE_NAME, ROW_MAPPER);
     }
